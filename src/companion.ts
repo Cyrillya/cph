@@ -12,6 +12,10 @@ import {
     useShortCodeForcesName,
     useShortLuoguName,
     useShortAtCoderName,
+    getCodeForcesPrefix,
+    getLuoguPrefix,
+    getAtCoderPrefix,
+    lowercaseImportedFileName,
     getMenuChoices,
     getDefaultLanguageTemplateFileLocation,
     includeProblemIndex,
@@ -177,7 +181,14 @@ export const setupCompanionServer = () => {
     }
 };
 
-export const getProblemFileName = (problem: Problem, ext: string) => {
+/**
+ * Builds the file name using the site specific / word based rules. Exported for
+ * tests; use `getProblemFileName` to honour the lowercase preference.
+ */
+export const getRawProblemFileName = (
+    problem: Problem,
+    ext: string,
+): string => {
     if (!includeProblemIndex()) {
         const sections = problem.name.split(' - ');
         if (sections.length > 1) {
@@ -185,17 +196,19 @@ export const getProblemFileName = (problem: Problem, ext: string) => {
         }
     }
     if (isCodeforcesUrl(new URL(problem.url)) && useShortCodeForcesName()) {
-        return `${getProblemName(problem.url)}.${ext}`;
+        return `${getCodeForcesPrefix()}${getProblemName(problem.url)}.${ext}`;
     } else if (isLuoguUrl(new URL(problem.url)) && useShortLuoguName()) {
         // Url is like https://www.luogu.com.cn/problem/P1000
         const pattern = /problem\/(\w+)/;
         const match = problem.url.match(pattern);
-        return `${match?.[1] ?? ''}.${ext}`;
+        return `${getLuoguPrefix()}${match?.[1] ?? ''}.${ext}`;
     } else if (isAtCoderUrl(new URL(problem.url)) && useShortAtCoderName()) {
         // Url is like https://atcoder.jp/contests/abc311/tasks/abc311_a
         const pattern = /tasks\/(\w+)_(\w+)/;
         const match = problem.url.match(pattern);
-        return `${match?.[1] ?? ''}${match?.[2] ?? ''}.${ext}`;
+        return `${getAtCoderPrefix()}${match?.[1] ?? ''}${
+            match?.[2] ?? ''
+        }.${ext}`;
     } else {
         globalThis.logger.log(
             isCodeforcesUrl(new URL(problem.url)),
@@ -217,6 +230,19 @@ export const getProblemFileName = (problem: Problem, ext: string) => {
 
         return `${baseName}.${ext}`;
     }
+};
+
+/**
+ * File name for a newly imported problem, honouring
+ * `cph.general.lowercaseImportedFileName`. The extension is never touched.
+ */
+export const getProblemFileName = (problem: Problem, ext: string): string => {
+    const fileName = getRawProblemFileName(problem, ext);
+    if (!lowercaseImportedFileName()) {
+        return fileName;
+    }
+    const parsed = path.parse(fileName);
+    return `${parsed.name.toLowerCase()}${parsed.ext}`;
 };
 
 /** Handle the `problem` sent by Competitive Companion, such as showing the webview, opening an editor, managing layout etc. */

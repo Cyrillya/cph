@@ -1486,6 +1486,12 @@ function App() {
         });
     };
 
+    const bindProblemToUrl = () => {
+        vscodeApi.postMessage({
+            command: 'bind-problem-to-url',
+        });
+    };
+
     if (problem === undefined && showFallback) {
         return (
             <>
@@ -1498,6 +1504,15 @@ function App() {
                                 <i className="codicon codicon-add"></i>
                             </span>{' '}
                             {t('createProblem')}
+                        </div>
+                        <div
+                            className="btn btn-block"
+                            onClick={bindProblemToUrl}
+                        >
+                            <span className="icon">
+                                <i className="codicon codicon-link"></i>
+                            </span>{' '}
+                            {t('bindProblemToUrl')}
                         </div>
                         <a
                             className="btn btn-block btn-green"

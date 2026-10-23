@@ -14,8 +14,12 @@ export type prefSection =
     | 'general.includeProblemIndex'
     | 'general.wordRegex'
     | 'general.useShortCodeForcesName'
+    | 'general.useShortCodeForcesNamePrefix'
     | 'general.useShortLuoguName'
+    | 'general.useShortLuoguNamePrefix'
     | 'general.useShortAtCoderName'
+    | 'general.useShortAtCoderNamePrefix'
+    | 'general.lowercaseImportedFileName'
     | 'general.menuChoices'
     | 'language.c.Args'
     | 'language.c.SubmissionCompiler'
@@ -200,6 +204,11 @@ export type CreateLocalProblem = {
     command: 'create-local-problem';
 };
 
+/** Bind the current file to an online judge problem using its URL. */
+export type BindProblemToUrl = {
+    command: 'bind-problem-to-url';
+};
+
 export type OpenUrl = {
     command: 'url';
     url: string;
@@ -227,6 +236,7 @@ export type WebviewToVSEvent =
     | RunAllCommand
     | GetInitialProblem
     | CreateLocalProblem
+    | BindProblemToUrl
     | RunSingleCommand
     | KillRunningCommand
     | SaveCommand

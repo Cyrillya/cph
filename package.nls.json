@@ -5,7 +5,7 @@
     "cph.judgeView.name": "Results",
     "cph.judgeViewContainer.title": "CPH Judge",
     "cph.configuration.title": "Competitive Programming Helper",
-    "cph.general.saveLocation.description": "Location where generated .tcs and .bin files will be saved. Leave empty to save the file in the source file directory. Use this to clean up your folders.",
+    "cph.general.saveLocation.description": "Folder for everything cph generates (problem metadata and compiled binaries). Leave empty to use a '.cph' folder next to the source file. Relative paths are resolved against the source file's directory, '${workspaceFolder}' and absolute paths are supported. The folder is created automatically if missing.",
     "cph.general.timeOut.description": "The time in ms for which a testcase is run before it is killed ( timed-out ).",
     "cph.general.hideStderrorWhenCompiledOK.description": "Ignore and don't show stderror when compilation exit code is zero.",
     "cph.general.ignoreSTDERROR.description": "If enabled, non-empty standard error will not result in testcase failing.",
@@ -96,5 +96,10 @@
     "cph.utils.unsupported": "Unsupported file extension. Only these types are valid: {0}",
     "cph.utils.noActiveEditor": "No active editor found.",
     "cph.preferences.invalidSaveLocation": "Invalid save location, reverting to default. path not exists: {0}",
-    "cph.processRunSingle.invalidChecker": "Custom checker script not found at '{0}'"
+    "cph.processRunSingle.invalidChecker": "Custom checker script not found at '{0}'",
+    "cph.linkProblemToUrl.title": "CPH: Link Problem from URL",
+    "cph.general.useShortCodeForcesNamePrefix.description": "Prefix for the shortened codeforces file name. For example 'cf' turns 144C.cpp into cf144C.cpp",
+    "cph.general.useShortLuoguNamePrefix.description": "Prefix for the shortened luogu file name. For example 'lg' turns P1145.cpp into lgP1145.cpp",
+    "cph.general.useShortAtCoderNamePrefix.description": "Prefix for the shortened atcoder file name. For example 'at' turns abc123a.cpp into atabc123a.cpp",
+    "cph.general.lowercaseImportedFileName.description": "Lowercase the file name of every problem file created from an import (Competitive Companion, whichever website it comes from). For example 123B.cpp becomes 123b.cpp and lgP1000.cpp becomes lgp1000.cpp. Applies to all websites; the file extension is left untouched."
 }

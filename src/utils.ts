@@ -1,11 +1,15 @@
 import { spawn } from 'child_process';
-import { existsSync, readdirSync, readFileSync } from 'fs';
+import { existsSync, readdirSync, unlinkSync } from 'fs';
 import { platform } from 'os';
 import path from 'path';
 import * as vscode from 'vscode';
 
 import config from './config';
-import { getProbSaveLocation } from './parser';
+import {
+    getProbSaveLocation,
+    getLegacyProbSaveLocation,
+    getProblem,
+} from './parser';
 import {
     getCArgsPref,
     getCppArgsPref,
@@ -232,26 +236,45 @@ export const checkUnsupported = (srcPath: string): boolean => {
 /** Deletes the .prob problem file for a given source code path. */
 export const deleteProblemFile = async (srcPath: string) => {
     globalThis.reporter.sendTelemetryEvent(telmetry.DELETE_ALL_TESTCASES);
-    const probPath = getProbSaveLocation(srcPath);
+    const probPaths = [
+        getProbSaveLocation(srcPath),
+        getLegacyProbSaveLocation(srcPath),
+    ];
 
-    globalThis.logger.log('Deleting problem file', probPath);
-    try {
-        if (platform() === 'win32') {
-            spawn('cmd.exe', ['/c', 'del', probPath]);
-        } else {
-            spawn('rm', [probPath]);
+    for (const probPath of probPaths) {
+        if (!existsSync(probPath)) {
+            continue;
         }
-    } catch (error) {
-        globalThis.logger.error('Error while deleting problem file ', error);
+        globalThis.logger.log('Deleting problem file', probPath);
+        try {
+            unlinkSync(probPath);
+        } catch (error) {
+            globalThis.logger.error(
+                'Error while deleting problem file ',
+                error,
+            );
+        }
     }
 
     // Sleep for half second
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    // If the folder is now empty, remove the folder too
-    const probFolder = path.dirname(probPath);
-    const files = readdirSync(probFolder);
-    if (files.length === 0) {
+    // If the metadata folder is now empty, remove it too
+    for (const probPath of probPaths) {
+        const probFolder = path.dirname(probPath);
+        let files: string[];
+        try {
+            if (!existsSync(probFolder)) {
+                continue;
+            }
+            files = readdirSync(probFolder);
+        } catch (error) {
+            globalThis.logger.error('Error listing problem folder', error);
+            continue;
+        }
+        if (files.length !== 0) {
+            continue;
+        }
         globalThis.logger.log(
             'Deleting problem folder',
             probFolder,
@@ -280,10 +303,6 @@ export const getProblemForDocument = (
     }
 
     const srcPath = document.fileName;
-    const probPath = getProbSaveLocation(srcPath);
-    if (!existsSync(probPath)) {
-        return undefined;
-    }
-    const problem: Problem = JSON.parse(readFileSync(probPath).toString());
-    return problem;
+    const problem: Problem | null = getProblem(srcPath);
+    return problem ?? undefined;
 };

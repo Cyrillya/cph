@@ -2,9 +2,7 @@ import { workspace } from 'vscode';
 import type { prefSection } from './types';
 import config from './config';
 import path from 'path';
-import fs from 'fs';
 import * as vscode from 'vscode';
-import localize from './i18n';
 
 const getPreference = (section: prefSection): any => {
     const ret = workspace.getConfiguration('cph').get(section);
@@ -24,25 +22,19 @@ export const updatePreference = (
 export const getAutoShowJudgePref = (): boolean =>
     getPreference('general.autoShowJudge');
 
+/**
+ * The user configured folder for cph metadata and build artifacts.
+ *
+ * The value is intentionally returned unvalidated: relative paths are supported
+ * (resolved against the source file's directory), `${workspaceFolder}` is
+ * expanded, and missing folders are created on demand. See `parser.ts`.
+ */
 export const getSaveLocationPref = (): string => {
     const pref = getPreference('general.saveLocation');
-    const validSaveLocation = pref == '' || fs.existsSync(pref);
-    if (!validSaveLocation) {
-        vscode.window.showErrorMessage(
-            localize(
-                'cph.preferences.invalidSaveLocation',
-                'Invalid save location, reverting to default. path not exists: {0}',
-                pref,
-            ),
-        );
-        updatePreference(
-            'general.saveLocation',
-            '',
-            vscode.ConfigurationTarget.Global,
-        );
+    if (typeof pref !== 'string') {
         return '';
     }
-    return pref;
+    return pref.trim();
 };
 
 export const getHideStderrorWhenCompiledOK = (): boolean =>
@@ -134,6 +126,38 @@ export const useShortLuoguName = (): boolean => {
 export const useShortAtCoderName = (): boolean => {
     return getPreference('general.useShortAtCoderName');
 };
+
+/**
+ * Whether the file name of every problem file created from an import should be
+ * lowercased. A single setting governs all sources (Codeforces, Luogu,
+ * AtCoder, Kattis, ...).
+ */
+export const lowercaseImportedFileName = (): boolean => {
+    return getPreference('general.lowercaseImportedFileName') === true;
+};
+
+/**
+ * Prefix prepended to the short file name of an imported problem, e.g. `cf`
+ * turns `144C.cpp` into `cf144C.cpp`.
+ *
+ * Illegal file name characters are dropped so an invalid prefix can never break
+ * file creation.
+ */
+export const getShortNamePrefix = (section: prefSection): string => {
+    const pref = getPreference(section);
+    if (typeof pref !== 'string') {
+        return '';
+    }
+    return pref.trim().replace(/[\\/:*?"<>|]/g, '');
+};
+
+export const getCodeForcesPrefix = (): string =>
+    getShortNamePrefix('general.useShortCodeForcesNamePrefix');
+export const getLuoguPrefix = (): string =>
+    getShortNamePrefix('general.useShortLuoguNamePrefix');
+export const getAtCoderPrefix = (): string =>
+    getShortNamePrefix('general.useShortAtCoderNamePrefix');
+
 export const getDefaultLanguageTemplateFileLocation = (): string | null => {
     const pref = getPreference('general.defaultLanguageTemplateFileLocation');
     if (pref === '') {

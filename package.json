@@ -52,6 +52,11 @@
             {
                 "command": "cph.compileWithoutRunning",
                 "title": "%cph.compileWithoutRunning.title%"
+            },
+            {
+                "command": "cph.linkProblemToUrl",
+                "title": "%cph.linkProblemToUrl.title%",
+                "icon": "dist/static/play.png"
             }
         ],
         "menus": {
@@ -407,15 +412,35 @@
                     "default": false,
                     "description": "%cph.general.useShortCodeForcesName.description%"
                 },
+                "cph.general.useShortCodeForcesNamePrefix": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%cph.general.useShortCodeForcesNamePrefix.description%"
+                },
                 "cph.general.useShortLuoguName": {
                     "type": "boolean",
                     "default": false,
                     "description": "%cph.general.useShortLuoguName.description%"
                 },
+                "cph.general.useShortLuoguNamePrefix": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%cph.general.useShortLuoguNamePrefix.description%"
+                },
                 "cph.general.useShortAtCoderName": {
                     "type": "boolean",
                     "default": false,
                     "description": "%cph.general.useShortAtCoderName.description%"
+                },
+                "cph.general.useShortAtCoderNamePrefix": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%cph.general.useShortAtCoderNamePrefix.description%"
+                },
+                "cph.general.lowercaseImportedFileName": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%cph.general.lowercaseImportedFileName.description%"
                 },
                 "cph.general.retainWebviewContext": {
                     "type": "boolean",

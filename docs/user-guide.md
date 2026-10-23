@@ -39,6 +39,24 @@ actions remain the same.
 
 1. Then, you can run them.
 
+### Linking a file to an online problem
+
+Files you wrote before installing cph have no metadata attached to them. Instead
+of creating a "local" problem, you can bind the file to the problem it solves:
+
+1. Open the source file and open the cph sidebar. It reads "This document does
+   not have a CPH problem associated with it".
+
+1. Click **Link Problem from URL** ( or run `CPH: Link Problem from URL` from
+   the command palette ) and paste the problem link.
+
+1. Only Codeforces, Luogu and AtCoder links are accepted; anything else shows an
+   error and asks for a valid URL.
+
+1. cph saves the problem and tries to download its sample tests, time limit and
+   memory limit. Downloading depends on the site being reachable - if it fails,
+   the file is still linked and you can type the testcases in by hand.
+
 ## Submit to Codeforces
 
 1. Install [cph-submit](https://github.com/agrawal-d/cph-submit) on Firefox.
@@ -201,12 +219,30 @@ Several options are available to customize the extension. Open VS Code settings
 \
 ![Preferences](img/generalSettings.png)
 
--   Default save location for generated meta-data.
+-   Default save location for generated meta-data and compiled binaries:
+
+    -   Empty ( default ): a `.cph` folder next to the source file.
+    -   Relative path, e.g. `meta/cph`: resolved against the directory of the
+        source file.
+    -   `${workspaceFolder}/.cphmeta` or an absolute path: a single shared
+        folder for the whole project.
+
+    The folder is created automatically if it does not exist, and the paths
+    stored inside the meta-data are relative, so you can move the code to
+    another machine without losing your testcases.
+
 -   Default language selected for new problems imported via Competitive
     Companion.
 -   Language choices offered in menu when new problem imported via Competitive
     Companion.
 -   Timeout for testcases.
+-   Prefix used for short problem names: `useShortCodeForcesNamePrefix`,
+    `useShortLuoguNamePrefix` and `useShortAtCoderNamePrefix`. With Prefix `cf`
+    a Codeforces problem is saved as `cf144C.cpp` instead of `144C.cpp`.
+-   `lowercaseImportedFileName`: when enabled, every file created from an import
+    ( whatever website it comes from ) gets a lowercased name, so the example
+    above becomes `cf144c.cpp`. Off by default, so nothing changes until you
+    turn it on. The file extension is kept as it is.
 
 ### Language Settings (for each language)
 

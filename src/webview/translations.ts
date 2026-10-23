@@ -55,6 +55,7 @@ export const translations: Record<string, any> = {
         noProblemAssociated:
             'This document does not have a CPH problem associated with it.',
         createProblem: 'Create Problem',
+        bindProblemToUrl: 'Link Problem from URL',
         howToUse: 'How to use this extension',
         supportCPH: 'If you find CPH useful, please consider supporting.',
         supportDescription:
@@ -212,6 +213,7 @@ export const translations: Record<string, any> = {
         submitHint: '提示：也可以按 Ctrl+Alt+S 提交。',
         noProblemAssociated: '此文件尚未關聯 CPH 題目。',
         createProblem: '建立題目',
+        bindProblemToUrl: '以網址連結題目',
         howToUse: '如何使用此擴充功能',
         supportCPH: '如果 CPH 對你有幫助，歡迎支持我們。',
         supportDescription:
@@ -361,6 +363,7 @@ export const translations: Record<string, any> = {
         submitHint: '提示：您也可以按 Ctrl+Alt+S 进行提交。',
         noProblemAssociated: '此文档没有关联的 CPH 题目。',
         createProblem: '创建题目',
+        bindProblemToUrl: '用链接绑定题目',
         howToUse: '如何使用此扩展',
         supportCPH: '如果您觉得 CPH 有用，请考虑支持我们。',
         supportDescription:
@@ -510,6 +513,7 @@ export const translations: Record<string, any> = {
         submitHint: '힌트: Ctrl+Alt+S를 눌러 제출할 수도 있습니다.',
         noProblemAssociated: '이 문서와 연결된 CPH 문제가 없습니다.',
         createProblem: '문제 생성',
+        bindProblemToUrl: 'URL로 문제 연결',
         howToUse: '이 확장 프로그램 사용법',
         supportCPH: 'CPH가 유용하다면 후원을 고려해 주세요.',
         supportDescription:
@@ -665,6 +669,7 @@ export const translations: Record<string, any> = {
         noProblemAssociated:
             'このドキュメントに関連付けられた CPH の問題はありません。',
         createProblem: '問題を作成',
+        bindProblemToUrl: 'URLから問題を紐付け',
         howToUse: 'この拡張機能の使い方',
         supportCPH: 'CPH が役に立った場合は、サポートをご検討ください。',
         supportDescription:

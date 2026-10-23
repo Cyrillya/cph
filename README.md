@@ -83,6 +83,8 @@ You can contribute to this extension in many ways:
 
 -   File bug reports by creating issues.
 -   Develop this extension further - see [developer guide](docs/dev-guide.md).
+-   Build the fork and install it locally - see
+    [build & install guide](docs/build-and-install.md).
 -   Spreading the word about this extension.
 
 **Before creating a Pull Request, please create an issue to discuss the

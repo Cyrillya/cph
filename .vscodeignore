@@ -11,3 +11,4 @@ webpack.frontend.config.js
 .prettierrc.json
 .gitignore
 docs/
+.workbuddy/**

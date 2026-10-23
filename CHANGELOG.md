@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased ( fork )
+
+-   Metadata and build artifacts are kept in one folder. Compiled `.bin` files
+    now live next to the `.prob` files instead of beside your source code.
+-   Save location accepts relative paths ( resolved against the source file's
+    directory ), `${workspaceFolder}` and absolute paths, and the folder is
+    created automatically. Leaving it empty uses a `.cph` folder beside the
+    source file.
+-   Problem metadata now stores relative paths, so sources can be moved between
+    machines without losing their problems. Existing problem files are migrated
+    automatically.
+-   Configurable prefix for short problem names ( Codeforces, Luogu, AtCoder ),
+    e.g. `cf144C.cpp`.
+-   New "Link Problem from URL" option ( and `cph.linkProblemToUrl` command ) to
+    bind an existing source file to a Codeforces / Luogu / AtCoder problem, with
+    sample tests downloaded when available.
+-   New `cph.general.lowercaseImportedFileName` setting: lowercases the file
+    name of every imported problem ( any website ), e.g. `cf123B.cpp` becomes
+    `cf123b.cpp`. The file extension is never changed.
+
 ## 5.9.2
 
 -   Minor UI improvments for small sidebar widths.

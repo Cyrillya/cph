@@ -44,6 +44,7 @@ import config from './config';
 import localize from './i18n';
 import { setOnlineJudgeEnv, compileFile } from './compiler';
 import { checkUnsupported } from './utils';
+import { linkProblemToUrl } from './problemLink';
 
 let judgeViewProvider: JudgeViewProvider;
 
@@ -97,6 +98,14 @@ const registerCommands = (context: vscode.ExtensionContext) => {
         },
     );
 
+    const disposable6 = vscode.commands.registerCommand(
+        'cph.linkProblemToUrl',
+        () => {
+            globalThis.logger.log('Running command "linkProblemToUrl"');
+            linkProblemToUrl();
+        },
+    );
+
     judgeViewProvider = new JudgeViewProvider(context.extensionUri);
 
     const webviewView = vscode.window.registerWebviewViewProvider(
@@ -115,6 +124,7 @@ const registerCommands = (context: vscode.ExtensionContext) => {
     context.subscriptions.push(disposable3);
     context.subscriptions.push(disposable4);
     context.subscriptions.push(disposable5);
+    context.subscriptions.push(disposable6);
     globalThis.reporter = new TelemetryReporter(config.telemetryKey);
     context.subscriptions.push(globalThis.reporter);
 };

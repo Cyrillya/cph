@@ -5,7 +5,7 @@
     "cph.judgeView.name": "結果",
     "cph.judgeViewContainer.title": "CPH 評測",
     "cph.configuration.title": "競賽程式設計助手",
-    "cph.general.saveLocation.description": "產生的 .tcs 與 .bin 檔案的儲存位置。留空時會儲存於原始碼檔案所在的目錄，可藉此整理資料夾。",
+    "cph.general.saveLocation.description": "cph 產生內容（題目中繼資料與編譯產物 .bin）的存放資料夾。留空則使用原始碼同層的 .cph 資料夾。相對路徑以原始碼所在目錄為基準，也支援 ${workspaceFolder} 與絕對路徑；資料夾不存在時會自動建立。",
     "cph.general.timeOut.description": "測試案例執行的時間上限，單位為毫秒。超過此時間便會終止執行（逾時）。",
     "cph.general.hideStderrorWhenCompiledOK.description": "編譯結束代碼為零時，忽略且不顯示標準錯誤輸出。",
     "cph.general.ignoreSTDERROR.description": "啟用後，標準錯誤輸出非空白時不會導致測試案例判定失敗。",
@@ -96,5 +96,10 @@
     "cph.utils.unsupported": "不支援的副檔名。僅支援以下類型：{0}",
     "cph.utils.noActiveEditor": "找不到作用中的編輯器。",
     "cph.preferences.invalidSaveLocation": "儲存位置無效，將還原為預設值。路徑不存在：{0}",
-    "cph.processRunSingle.invalidChecker": "在 '{0}' 找不到自訂評測程式"
+    "cph.processRunSingle.invalidChecker": "在 '{0}' 找不到自訂評測程式",
+    "cph.linkProblemToUrl.title": "CPH：以網址連結題目",
+    "cph.general.useShortCodeForcesNamePrefix.description": "Codeforces 短檔名的前置詞，例如填入 cf 會讓 144C.cpp 變成 cf144C.cpp",
+    "cph.general.useShortLuoguNamePrefix.description": "洛谷短檔名的前置詞，例如填入 lg 會讓 P1145.cpp 變成 lgP1145.cpp",
+    "cph.general.useShortAtCoderNamePrefix.description": "AtCoder 短檔名的前置詞，例如填入 at 會讓 abc123a.cpp 變成 atabc123a.cpp",
+    "cph.general.lowercaseImportedFileName.description": "將透過匯入（Competitive Companion，不論來自哪個網站）新建的題目檔名全部轉為小寫，例如 123B.cpp 變成 123b.cpp、lgP1000.cpp 變成 lgp1000.cpp。一個設定對所有網站生效；副檔名不會被更動。"
 }

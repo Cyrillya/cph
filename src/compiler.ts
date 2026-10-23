@@ -6,12 +6,12 @@ import path from 'path';
 import {
     getCOutputArgPref,
     getCppOutputArgPref,
-    getSaveLocationPref,
     getHideStderrorWhenCompiledOK,
     getDefaultOnlineJudge,
 } from './preferences';
 import * as vscode from 'vscode';
 import { getJudgeViewProvider } from './extension';
+import { ensureMetadataFolder } from './parser';
 import { toAsciiFilename } from './utilsPure';
 import localize from './i18n';
 export let onlineJudgeEnv = getDefaultOnlineJudge();
@@ -23,9 +23,10 @@ export const setOnlineJudgeEnv = (value: boolean) => {
 };
 
 /**
- *  Get the location to save the generated binary in. If save location is
- *  available in preferences, returns that, otherwise returns the directory of
- *  active file.
+ *  Get the location to save the generated binary in. Binaries are always stored
+ *  inside cph's metadata folder (`.cph` next to the source by default, or the
+ *  user configured save location), so that the source directory is not polluted
+ *  with build artifacts.
  *
  *  If it is a interpteted language, simply returns the path to the source code.
  *
@@ -54,14 +55,9 @@ export const getBinSaveLocation = (srcPath: string): string => {
             ext = '.bin';
         }
     }
-    const savePreference = getSaveLocationPref();
     const srcFileName = path.parse(srcPath).name;
     const binFileName = toAsciiFilename(srcFileName) + ext;
-    const binDir = path.dirname(srcPath);
-    if (savePreference && savePreference !== '') {
-        return path.join(savePreference, binFileName);
-    }
-    return path.join(binDir, binFileName);
+    return path.join(ensureMetadataFolder(srcPath), binFileName);
 };
 
 /**
@@ -214,14 +210,13 @@ const getDotnetProjectLocation = (
     }
 
     const projName = '.cphcsrun';
-    const srcDir = path.dirname(srcPath);
-    const projDir = path.join(srcDir, projName);
+    const projDir = path.join(ensureMetadataFolder(srcPath), projName);
     return path.join(projDir, projName + '.csproj');
 };
 
 /**
  * Create a new .NET project to compile the source code.
- * It would be created under the same directory as the code.
+ * It would be created inside cph's metadata folder, next to the binaries.
  *
  * @param language The Language object for the source code
  * @param srcPath location of the source code
