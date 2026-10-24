@@ -10,7 +10,20 @@ import { getJudgeViewProvider } from '../extension';
 import { getIgnoreSTDERRORPref } from '../preferences';
 import telmetry from '../telmetry';
 import * as fs from 'fs';
+import path from 'path';
 import localize from '../i18n';
+
+/**
+ * Custom checker paths are stored relative to the source file's folder;
+ * resolve them to an absolute path for spawning the process.
+ */
+export const getAbsoluteCheckerPath = (problem: Problem): string => {
+    const raw = (problem.customCheckerPath || '').trim();
+    if (!raw || path.isAbsolute(raw)) {
+        return raw;
+    }
+    return path.resolve(path.dirname(problem.srcPath), raw);
+};
 
 export const runSingleAndSave = async (
     problem: Problem,
@@ -70,7 +83,7 @@ export const runSingleAndSave = async (
         problem.customCheckerPath &&
         problem.customCheckerPath.trim() !== ''
     ) {
-        const checkerPath = problem.customCheckerPath.trim();
+        const checkerPath = getAbsoluteCheckerPath(problem);
         if (fs.existsSync(checkerPath)) {
             getJudgeViewProvider().extensionToJudgeViewMessage({
                 command: 'checking',

@@ -542,6 +542,7 @@ function Judge(props: {
             sendMessageToVSCode({
                 command: 'open-file',
                 path: checkerPath,
+                srcPath: problem.srcPath,
             });
         }
     };

@@ -19,6 +19,9 @@
 -   New `cph.general.lowercaseImportedFileName` setting: lowercases the file
     name of every imported problem ( any website ), e.g. `cf123B.cpp` becomes
     `cf123b.cpp`. The file extension is never changed.
+-   Custom checker script paths are now relative to the source file's folder:
+    `checker.py` next to `abc.cpp` is entered as `checker.py`. Absolute paths
+    still work, and paths stored by previous versions are converted on load.
 
 ## 5.9.2
 

@@ -173,6 +173,11 @@ export const problemFileExists = (srcPath: string): boolean => {
  * Turn the paths inside a problem into paths relative to its own problem file
  * so that the metadata stays valid when the source is moved to another machine
  * or another filesystem.
+ *
+ * `customCheckerPath` is the exception: it is stored exactly as the user typed
+ * it, i.e. relative to the source file's folder (an absolute path is kept
+ * absolute, with separators normalized). This way a checker sitting next to the
+ * source stays valid when the pair is moved together.
  */
 const relativizeProblem = (problem: Problem, probPath: string): Problem => {
     const baseDir = path.dirname(probPath);
@@ -194,10 +199,52 @@ const relativizeProblem = (problem: Problem, probPath: string): Problem => {
     };
 
     if (serialized.customCheckerPath) {
-        serialized.customCheckerPath = relativize(serialized.customCheckerPath);
+        serialized.customCheckerPath = serialized.customCheckerPath
+            .split(path.sep)
+            .join('/');
     }
 
     return serialized;
+};
+
+const toPosixPath = (p: string): string => p.split(path.sep).join('/');
+
+/**
+ * Normalize the checker path for display and further use: the user-facing form
+ * is relative to the source file's folder, so `checker.py` next to `abc.cpp` is
+ * shown and stored as `checker.py`.
+ *
+ * Handles files written by older versions:
+ * -   Absolute paths inside the source folder are converted to the relative
+ *     form; absolute paths elsewhere are kept.
+ * -   Paths that were stored relative to the problem file (instead of the
+ *     source folder) are converted when they only resolve from there.
+ */
+const normalizeCheckerPath = (
+    raw: string,
+    probDir: string,
+    srcDir: string,
+): string => {
+    if (!raw) {
+        return raw;
+    }
+    if (path.isAbsolute(raw)) {
+        const relative = path.relative(srcDir, raw);
+        if (!relative.startsWith('..') && !path.isAbsolute(relative)) {
+            return toPosixPath(relative);
+        }
+        return toPosixPath(raw);
+    }
+    const fromSource = path.resolve(srcDir, raw);
+    if (fs.existsSync(fromSource)) {
+        return toPosixPath(raw);
+    }
+    // Paths written by earlier versions were relative to the problem file.
+    const fromProblem = path.resolve(probDir, raw);
+    if (fs.existsSync(fromProblem)) {
+        return toPosixPath(path.relative(srcDir, fromProblem));
+    }
+    return toPosixPath(raw);
 };
 
 /** Inverse of {@link relativizeProblem}. */
@@ -214,7 +261,11 @@ const absolutizeProblem = (problem: Problem, probPath: string): Problem => {
     };
 
     if (resolved.customCheckerPath) {
-        resolved.customCheckerPath = absolutize(resolved.customCheckerPath);
+        resolved.customCheckerPath = normalizeCheckerPath(
+            resolved.customCheckerPath,
+            baseDir,
+            path.dirname(resolved.srcPath),
+        );
     }
 
     return resolved;

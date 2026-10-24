@@ -94,7 +94,8 @@ export const translations: Record<string, any> = {
         feedbackSent: 'Feedback sent! Thank you.',
         feedbackFailed: 'Failed to send feedback.',
         customChecker: 'Custom Checker',
-        customCheckerPathPlaceholder: 'Full path to python script',
+        customCheckerPathPlaceholder:
+            "Path to the python script, relative to the source file's folder (e.g. checker.py)",
         invocationFormat: 'Invocation format',
         documentation: 'Documentation',
         customCheckerDescription:
@@ -251,7 +252,8 @@ export const translations: Record<string, any> = {
         feedbackSent: '意見已傳送，謝謝！',
         feedbackFailed: '意見傳送失敗。',
         customChecker: '自訂評測程式',
-        customCheckerPathPlaceholder: 'Python 指令碼的完整路徑',
+        customCheckerPathPlaceholder:
+            'Python 指令碼路徑，相對原始碼所在資料夾（例如 checker.py）',
         invocationFormat: '呼叫格式',
         documentation: '文件',
         customCheckerDescription:
@@ -401,7 +403,8 @@ export const translations: Record<string, any> = {
         feedbackSent: '反馈已发送！谢谢。',
         feedbackFailed: '发送反馈失败。',
         customChecker: '自定义判题脚本',
-        customCheckerPathPlaceholder: 'Python 脚本的完整路径',
+        customCheckerPathPlaceholder:
+            'Python 脚本路径，相对源码文件所在文件夹（例如 checker.py）',
         invocationFormat: '调用格式',
         documentation: '文档',
         customCheckerDescription:
@@ -551,7 +554,8 @@ export const translations: Record<string, any> = {
         feedbackSent: '피드백이 전송되었습니다! 감사합니다.',
         feedbackFailed: '피드백 전송에 실패했습니다.',
         customChecker: '커스텀 채점 스크립트',
-        customCheckerPathPlaceholder: 'Python 스크립트의 전체 경로',
+        customCheckerPathPlaceholder:
+            'Python 스크립트 경로 (소스 파일 폴더 기준 상대 경로, 예: checker.py)',
         invocationFormat: '호출 형식',
         documentation: '문서',
         customCheckerDescription:
@@ -708,7 +712,8 @@ export const translations: Record<string, any> = {
         feedbackSent: 'フィードバックを送信しました！ありがとうございます。',
         feedbackFailed: 'フィードバックの送信に失敗しました。',
         customChecker: 'カスタム判題スクリプト',
-        customCheckerPathPlaceholder: 'Python スクリプトのフルパス',
+        customCheckerPathPlaceholder:
+            'Python スクリプトのパス (ソースファイルのフォルダー基準の相対パス、例: checker.py)',
         invocationFormat: '呼び出し形式',
         documentation: 'ドキュメント',
         customCheckerDescription:

@@ -230,6 +230,8 @@ export type OpenSettings = {
 export type OpenFile = {
     command: 'open-file';
     path: string;
+    /** Source file path, used to resolve `path` when it is relative. */
+    srcPath?: string;
 };
 
 export type WebviewToVSEvent =

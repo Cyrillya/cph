@@ -108,8 +108,10 @@ delegates the decision to your script.
 
 1.  **Activation**: Click the **"Custom Checker"** button in the judge view.
     This will reveal the configuration area.
-2.  **Path Configuration**: Enter the **full filesystem path** to your Python
-    script (e.g., `/home/user/checker.py` or `C:\scripts\judge.py`).
+2.  **Path Configuration**: Enter the path to your Python script. It can be
+    **relative to the folder of the source file** — a `checker.py` sitting next
+    to `abc.cpp` is just `checker.py` — or an absolute path (e.g.,
+    `/home/user/checker.py` or `C:\scripts\judge.py`).
 3.  **UI Changes**: Once enabled, the "Expected Output" field for all test cases
     will be visually hidden to indicate it is no longer being used for judging.
 4.  **Auto-Focus**: Clicking the "Custom Checker (Enabled)" button will
@@ -189,8 +191,10 @@ if __name__ == "__main__":
 
 ### Best Practices & Tips
 
--   **Full Paths**: Always use absolute paths for the checker script to avoid
-    ambiguity.
+-   **Paths**: Prefer a path relative to the source file's folder ( e.g.
+    `checker.py` ) - the pair then keeps working when you move or sync the
+    folder. Absolute paths also work. The path is stored in the problem's
+    metadata exactly as typed.
 -   **Debugging**: Use `print()` statements in your Python script; they will
     appear in the **Checker Log** within CPH.
 -   **Error Handling**: Wrap your logic in a `try-except` block to ensure the

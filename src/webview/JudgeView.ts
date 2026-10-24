@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import path from 'path';
 import {
     storeSubmitProblem,
     submitKattisProblem,
@@ -189,9 +190,19 @@ class JudgeViewProvider implements vscode.WebviewViewProvider {
 
                     case 'open-file': {
                         try {
-                            const doc = await vscode.workspace.openTextDocument(
-                                message.path,
-                            );
+                            // Checker paths are stored relative to the source
+                            // file's folder; resolve them before opening.
+                            const target =
+                                message.srcPath &&
+                                message.path &&
+                                !path.isAbsolute(message.path)
+                                    ? path.resolve(
+                                          path.dirname(message.srcPath),
+                                          message.path,
+                                      )
+                                    : message.path;
+                            const doc =
+                                await vscode.workspace.openTextDocument(target);
                             await vscode.window.showTextDocument(
                                 doc,
                                 vscode.ViewColumn.One,
